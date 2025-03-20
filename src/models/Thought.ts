@@ -1,42 +1,36 @@
-import { Schema, model, type Document } from 'mongoose';
+import { Schema, Types, model, type Document } from 'mongoose';
 
-interface IAssignment extends Document {
-    assignmentId: Schema.Types.ObjectId,
-    name: string,
-    score: number
+interface IReaction extends Document {
+    reactionId: Schema.Types.ObjectId,
+    reactionBody: string,
+    username: string,
+    createdAt: Date,
 }
 
-interface ICourse extends Document {
-    name: string,
-    inPerson: boolean,
-    start: Date,
-    end: Date,
-    students: Schema.Types.ObjectId[]
+interface IThought extends Document {
+    thoughtText: string,
+    createdAt: Date,
+    username: string,
+    reactions: Schema.Types.ObjectId[]
 }
 
-const courseSchema = new Schema<ICourse>(
+const thoughtSchema = new Schema<IThought>(
     {
-        name: {
+        thoughtText: {
             type: String,
             required: true,
         },
-        inPerson: {
-            type: Boolean,
-            default: true,
-        },
-        start: {
+        createdAt: {
             type: Date,
             default: Date.now(),
         },
-        end: {
-            type: Date,
-            // Sets a default value of 12 weeks from now
-            default: () => new Date(+new Date() + 84 * 24 * 60 * 60 * 1000),
+        username: {
+            type: String,
         },
-        students: [
+        reactions: [
             {
                 type: Schema.Types.ObjectId,
-                ref: 'student',
+                ref: 'reactionSchema',
             },
         ],
     },
@@ -48,23 +42,26 @@ const courseSchema = new Schema<ICourse>(
     },
 );
 
-const assignmentSchema = new Schema<IAssignment>(
+const reactionSchema = new Schema<IReaction>(
     {
-        assignmentId: {
+        reactionId: {
             type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId(),
         },
-        name: {
+        reactionBody: {
             type: String,
             required: true,
-            maxlength: 50,
-            minlength: 4,
-            default: 'Unnamed assignment',
+            maxlength: 280,
+            minlength: 1,
         },
-        score: {
-            type: Number,
+        username: {
+            type: String,
             required: true,
-            default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            //getter function to format timestamp?
         },
     },
     {
@@ -73,6 +70,6 @@ const assignmentSchema = new Schema<IAssignment>(
     }
 );
 
-const Course = model<ICourse>('Course', courseSchema);
+const Course = model<IThought>('Course', thoughtSchema);
 
 export default Course;
