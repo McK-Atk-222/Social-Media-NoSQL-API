@@ -2,13 +2,6 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 import { User, Thought } from '../models/index.js';
 
-// Aggregate function to get number of students overall
-
-export const frientCount = async () => {
-    const numberOfStudents = await Student.aggregate()
-        .count('studentCount');
-    return numberOfStudents;
-}
 
 // Aggregate function for getting the overall grade using $avg
 export const grade = async (studentId: string) =>
