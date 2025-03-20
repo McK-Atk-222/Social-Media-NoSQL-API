@@ -1,61 +1,36 @@
-import { Schema, Types, model, type Document } from 'mongoose';
-
-// interface IAssignment extends Document {
-//     assignmentId: Schema.Types.ObjectId,
-//     name: string,
-//     score: number
-// }
+import { Schema, ObjectId , model, Document } from 'mongoose';
 
 interface IUser extends Document {
     username: string,
     email: string,
-    github: string,
-    thoughts: Schema.Types.ObjectId[],
-    friends: Schema.Types.ObjectId[]
+    thoughts: ObjectId[],
+    friends: ObjectId[],
 }
 
-const assignmentSchema = new Schema<IAssignment>(
-    {
-        assignmentId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId(),
-        },
-        name: {
-            type: String,
-            required: true,
-            maxlength: 50,
-            minlength: 4,
-            default: 'Unnamed assignment',
-        },
-        score: {
-            type: Number,
-            required: true,
-            default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
-        },
+const userSchema = new Schema<IUser>({
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+        trimmed: true,
     },
-    {
-        timestamps: true,
-        _id: false
-    }
-);
-
-const studentSchema = new Schema<IStudent>({
-    first: {
+    email: {
         type: String,
         required: true,
         max_length: 50,
     },
-    last: {
-        type: String,
-        required: true,
-        max_length: 50,
-    },
-    github: {
-        type: String,
-        required: true,
-        max_length: 50,
-    },
-    assignments: [assignmentSchema],
+    thoughts: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'thought',
+        },
+      ],
+    friends: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: 'user',
+        },
+      ],
 },
     {
         toJSON: {

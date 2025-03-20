@@ -1,5 +1,11 @@
 import { Schema, model, type Document } from 'mongoose';
 
+interface IAssignment extends Document {
+    assignmentId: Schema.Types.ObjectId,
+    name: string,
+    score: number
+}
+
 interface ICourse extends Document {
     name: string,
     inPerson: boolean,
@@ -40,6 +46,31 @@ const courseSchema = new Schema<ICourse>(
         },
         timestamps: true
     },
+);
+
+const assignmentSchema = new Schema<IAssignment>(
+    {
+        assignmentId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId(),
+        },
+        name: {
+            type: String,
+            required: true,
+            maxlength: 50,
+            minlength: 4,
+            default: 'Unnamed assignment',
+        },
+        score: {
+            type: Number,
+            required: true,
+            default: () => Math.floor(Math.random() * (100 - 70 + 1) + 70),
+        },
+    },
+    {
+        timestamps: true,
+        _id: false
+    }
 );
 
 const Course = model<ICourse>('Course', courseSchema);

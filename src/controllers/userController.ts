@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
-import { Student, Course } from '../models/index.js';
+import { User, Thought } from '../models/index.js';
 
 // Aggregate function to get number of students overall
 

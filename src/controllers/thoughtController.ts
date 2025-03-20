@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Course, Student } from '../models/index.js';
+import { Thought, User } from '../models/index.js';
 
 /**
  * GET All Courses /courses
