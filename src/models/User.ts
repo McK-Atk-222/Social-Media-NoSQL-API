@@ -7,6 +7,11 @@ interface IUser extends Document {
     friends: ObjectId[],
 }
 
+const validateEmail = function(email: string) {
+    const re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email)
+};
+
 const userSchema = new Schema<IUser>({
     username: {
         type: String,
@@ -18,6 +23,8 @@ const userSchema = new Schema<IUser>({
         type: String,
         required: true,
         max_length: 50,
+        validate: [validateEmail, 'Please fill a valid email address'],
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     },
     thoughts: [
         {
