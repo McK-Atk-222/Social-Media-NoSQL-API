@@ -5,20 +5,16 @@ import {
   getUserById,
   createUser,
   deleteUser,
-  addThought,
-  removeThought,
+  updateUser,
 } from '../../controllers/userController.js';
 
-// /api/students
+// /api/users
 router.route('/').get(getAllUsers).post(createUser);
 
-// /api/students/:studentId
-router.route('/:studentId').get(getUserById).delete(deleteUser);
+// /api/users/:userId
+router.route('/:userId').get(getUserById).delete(deleteUser).put(updateUser);
 
-// /api/students/:studentId/assignments
-router.route('/:userId/thoughts').post(addThought);
-
-// /api/students/:studentId/assignments/:assignmentId
-router.route('/:userId/thoughts/:thoughtId').delete(removeThought);
+// /api/users/:userId/friends/:friendId
+// router.route('/:userId/friends/:friendId').post(addFriend).delete(deleteFriend);
 
 export { router as userRouter} ;

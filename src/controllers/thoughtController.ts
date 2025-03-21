@@ -40,17 +40,21 @@ export const getThoughtById = async (req: Request, res: Response) => {
   };
 
   /**
- * POST Course /courses
+ * POST Thoughts /thoughts
  * @param object username
- * @returns a single Course object
+ * @returns a single Thought object
 */
+
 export const createThought = async (req: Request, res: Response) => {
-    const { thought } = req.body;
+    const { thought, userId } = req.body;
     try {
       const newThought = await Thought.create({
         thought
       });
-      res.status(201).json(newThought);
+      const updatedUser = await User.findByIdAndUpdate(
+        {_id: userId}, {$push: {thoughts: newThought._id}}, { new: true }
+      )
+      res.status(201).json(updatedUser);
     } catch (error: any) {
       res.status(400).json({
         message: error.message

@@ -14,34 +14,6 @@ interface IThought extends Document {
     reactions: Schema.Types.ObjectId[]
 }
 
-const thoughtSchema = new Schema<IThought>(
-    {
-        thoughtText: {
-            type: String,
-            required: true,
-        },
-        createdAt: {
-            type: Date,
-            default: Date.now(),
-        },
-        username: {
-            type: String,
-        },
-        reactions: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'reactionSchema',
-            },
-        ],
-    },
-    {
-        toJSON: {
-            virtuals: true,
-        },
-        timestamps: true
-    },
-);
-
 const reactionSchema = new Schema<IReaction>(
     {
         reactionId: {
@@ -62,6 +34,7 @@ const reactionSchema = new Schema<IReaction>(
             type: Date,
             default: Date.now,
             //getter function to format timestamp?
+            // get:(currentDate)=>formatDate(currentDate)
         },
     },
     {
@@ -70,6 +43,31 @@ const reactionSchema = new Schema<IReaction>(
     }
 );
 
-const Course = model<IThought>('Course', thoughtSchema);
+const thoughtSchema = new Schema<IThought>(
+    {
+        thoughtText: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now(),
+        },
+        username: {
+            type: String,
+        },
+        reactions: [
+           reactionSchema
+        ],
+    },
+    {
+        toJSON: {
+            virtuals: true,
+        },
+        timestamps: true
+    },
+);
 
-export default Course;
+const Thought = model<IThought>('Thought', thoughtSchema);
+
+export default Thought;

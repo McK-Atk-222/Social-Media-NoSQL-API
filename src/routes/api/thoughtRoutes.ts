@@ -6,16 +6,25 @@ import {
   createThought,
   updateThought,
   deleteThought,
+  addReaction,
+  removeReaction,
 } from '../../controllers/thoughtController.js';
 
-// /api/courses
+// /api/thought
 router.route('/').get(getAllThoughts).post(createThought);
 
-// /api/courses/:courseId
+// /api/thought/:thoughtId
 router
-  .route('/:courseId')
+  .route('/:thoughtId')
   .get(getThoughtById)
   .put(updateThought)
   .delete(deleteThought);
+
+// /api/thought/:thoughtId/reactions
+router.route('/:thoughtId/reactions').post(addReaction);
+
+// /api/thought/:thoughtId/reactions/:reactionId
+router.route('/:thoughtId/reactions/:reactionId').delete(removeReaction);
+
 
 export { router as thoughtRouter };
