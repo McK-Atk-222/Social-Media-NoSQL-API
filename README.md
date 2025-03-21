@@ -1,15 +1,19 @@
 # Social Media NoSQL API
 
 ## Description
-an API from scratch for a social network web application where users can share th
+An API built from scratch for a social network web application where users can share their thoughts, react to friends' thoughts, and create a friend list.
 
 ## Table of Contents
+- [Technologies](#technologies)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
 - [Contributing](#contributing)
 - [Tests](#tests)
 - [Questions](#questions)
+
+## Technologies
+Express.js for routing, a MongoDB database, and the Mongoose ODM
 
 ## Installation
 npm i
