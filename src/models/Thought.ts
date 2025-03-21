@@ -34,7 +34,6 @@ const reactionSchema = new Schema<IReaction>(
             type: Date,
             default: Date.now,
             //getter function to format timestamp?
-            // get:(currentDate)=>formatDate(currentDate)
         },
     },
     {
@@ -51,7 +50,8 @@ const thoughtSchema = new Schema<IThought>(
         },
         createdAt: {
             type: Date,
-            default: Date.now(),
+            default: Date.now
+            //getter function to format timestamp?
         },
         username: {
             type: String,
