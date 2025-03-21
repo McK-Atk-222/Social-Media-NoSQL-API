@@ -26,7 +26,7 @@ export const getThoughtById = async (req: Request, res: Response) => {
     try {
       const thought = await Thought.findById(thoughtId);
       if(thought) {
-        res.json(Thought);
+        res.json(thought);
       } else {
         res.status(404).json({
           message: 'Thought not found'
@@ -46,10 +46,11 @@ export const getThoughtById = async (req: Request, res: Response) => {
 */
 
 export const createThought = async (req: Request, res: Response) => {
-    const { thought, userId } = req.body;
+    const { thoughtText, username, userId } = req.body;
     try {
       const newThought = await Thought.create({
-        thought
+        thoughtText,
+        username
       });
       const updatedUser = await User.findByIdAndUpdate(
         {_id: userId}, {$push: {thoughts: newThought._id}}, { new: true }
@@ -94,13 +95,14 @@ export const updateThought = async (req: Request, res: Response) => {
 */
 export const deleteThought = async (req: Request, res: Response) => {
     try {
-      const thought = await Thought.findOneAndDelete({ _id: req.params.courseId});
+      const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId});
       
       if(!thought) {
         res.status(404).json({
           message: 'No thought with that ID'
         });
       }
+      res.status(201).json(thought)
     } catch (error: any) {
       res.status(500).json({
         message: error.message
