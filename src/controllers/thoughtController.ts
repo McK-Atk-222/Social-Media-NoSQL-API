@@ -140,10 +140,10 @@ export const addReaction = async (req: Request, res: Response) => {
 }
 
 /**
-* DELETE Assignment based on /students/:studentId/assignments
-* @param string assignmentId
-* @param string studentId
-* @returns object student 
+* DELETE reaction based on /thought/:thoughtId/reactions
+* @param string reactionId
+* @param string thoughtId
+* @returns object thought 
 */
 
 export const removeReaction = async (req: Request, res: Response) => {
@@ -157,7 +157,7 @@ export const removeReaction = async (req: Request, res: Response) => {
       if (!thought) {
           return res
               .status(404)
-              .json({ message: 'No student found with that ID :(' });
+              .json({ message: 'No thought found with that ID :(' });
       }
 
       return res.json(thought);
