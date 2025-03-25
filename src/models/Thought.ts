@@ -4,12 +4,12 @@ interface IReaction extends Document {
     reactionId: Schema.Types.ObjectId,
     reactionBody: string,
     username: string,
-    createdAt: Date,
+    createdAt: Date | any,
 }
 
 interface IThought extends Document {
     thoughtText: string,
-    createdAt: Date,
+    createdAt: Date | any,
     username: string,
     reactions: Schema.Types.ObjectId[]
 }
@@ -33,10 +33,17 @@ const reactionSchema = new Schema<IReaction>(
         createdAt: {
             type: Date,
             default: Date.now,
-            //getter function to format timestamp?
+            //getter function to format timestamp
+            get: function (timestamp: any) {
+                return new Date(timestamp).toLocaleString(); // Format the timestamp
         },
+        }
     },
     {
+        toJSON: {
+            virtuals: true,
+            getters: true
+        },
         timestamps: true,
         _id: false
     }
@@ -50,11 +57,15 @@ const thoughtSchema = new Schema<IThought>(
         },
         createdAt: {
             type: Date,
-            default: Date.now
-            //getter function to format timestamp?
+            default: Date.now,
+            //getter function to format timestamp
+            get: function (timestamp: any) {
+                return new Date(timestamp).toLocaleString(); // Format the timestamp
+            }
         },
         username: {
             type: String,
+            require: true
         },
         reactions: [
            reactionSchema
@@ -63,6 +74,7 @@ const thoughtSchema = new Schema<IThought>(
     {
         toJSON: {
             virtuals: true,
+            getters: true
         },
         timestamps: true
     },
